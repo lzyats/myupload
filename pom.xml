@@ -70,6 +70,13 @@
             </exclusions>
         </dependency>
 
+        <!-- MinIO -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>8.4.6</version>
+        </dependency>
+
         <!-- fastDFS -->
         <dependency>
             <groupId>com.github.tobato</groupId>
