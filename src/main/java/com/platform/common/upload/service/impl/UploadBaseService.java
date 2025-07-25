@@ -85,13 +85,7 @@ public class UploadBaseService {
                 .append(FileNameUtil.UNIX_SEPARATOR)
                 .append(zonedDateTime.format(hourFormatter))
                 .append(FileNameUtil.UNIX_SEPARATOR);
-        // 提取原文件后缀名
-        String fileExtension = FileNameUtil.extName(fileName);
-        String newFileName = getFileName();
-        if (!StringUtils.isEmpty(fileExtension)) {
-            newFileName = newFileName + "." + fileExtension;
-        }
-        return builder.toString() + newFileName;
+        return builder.toString() + fileName;
     }
 
     /**
@@ -122,6 +116,26 @@ public class UploadBaseService {
                 .setFileName(fileName)
                 .setFileKey(fileKey)
                 .setFilePath(serverUrl + FileNameUtil.UNIX_SEPARATOR + fileKey);
+    }
+
+    /**
+     * 处理文件名后缀并添加到fileKey
+     * @param fileName 原始文件名
+     * @param fileKey 原始文件键
+     * @return 添加了后缀的fileKey
+     */
+    protected static String appendFileExtension(String fileName, String fileKey) {
+        String fileExtension = "";
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex != -1 && dotIndex < fileName.length() - 1) {
+            fileExtension = fileName.substring(dotIndex);
+        }
+
+        if (!fileExtension.isEmpty()) {
+            fileKey = fileKey + fileExtension;
+        }
+
+        return fileKey;
     }
 
     /**

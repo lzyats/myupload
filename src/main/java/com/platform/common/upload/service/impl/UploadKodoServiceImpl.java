@@ -96,6 +96,7 @@ public class UploadKodoServiceImpl extends UploadBaseService implements UploadSe
     public UploadFileVo uploadFile(MultipartFile file) {
         String fileName = getFileName(file);
         String fileKey = getFileKey(prefix);
+        fileKey=appendFileExtension(fileName,fileKey);
         String token = getToken(fileKey);
         Response response = null;
         try {
@@ -116,6 +117,7 @@ public class UploadKodoServiceImpl extends UploadBaseService implements UploadSe
     public UploadFileVo uploadFile(File file) {
         String fileName = getFileName(file);
         String fileKey = getFileKey(prefix);
+        fileKey=appendFileExtension(fileName,fileKey);
         String token = getToken(fileKey);
         Response response = null;
         try {

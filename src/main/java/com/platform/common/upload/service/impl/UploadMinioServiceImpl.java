@@ -90,6 +90,9 @@ public class UploadMinioServiceImpl extends UploadBaseService implements UploadS
         try {
             String fileName = getFileName(file);
             String fileKey = getFileKey(prefix);
+
+            fileKey=appendFileExtension(fileName,fileKey);
+
             InputStream inputStream = file.getInputStream();
             client.putObject(PutObjectArgs.builder()
                     .bucket(bucket)
@@ -109,6 +112,9 @@ public class UploadMinioServiceImpl extends UploadBaseService implements UploadS
         try {
             String fileName = getFileName(file);
             String fileKey = getFileKey(prefix);
+
+            fileKey=appendFileExtension(fileName,fileKey);
+
             InputStream inputStream = java.nio.file.Files.newInputStream(file.toPath());
             client.putObject(PutObjectArgs.builder()
                     .bucket(bucket)

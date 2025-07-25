@@ -107,6 +107,7 @@ public class UploadOssServiceImpl extends UploadBaseService implements UploadSer
         try {
             String fileName = getFileName(file);
             String fileKey = getFileKey(prefix);
+            fileKey=appendFileExtension(fileName,fileKey);
             client.putObject(bucket, fileKey, file.getInputStream());
             return format(fileName, serverUrl, fileKey);
         } catch (Exception e) {
@@ -123,6 +124,7 @@ public class UploadOssServiceImpl extends UploadBaseService implements UploadSer
         try {
             String fileName = getFileName(file);
             String fileKey = getFileKey(prefix);
+            fileKey=appendFileExtension(fileName,fileKey);
             InputStream inputStream = FileUtil.getInputStream(file);
             client.putObject(bucket, fileKey, inputStream);
             return format(fileName, serverUrl, fileKey);
