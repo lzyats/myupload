@@ -14,6 +14,11 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * 基础上传
  */
@@ -63,20 +68,30 @@ public class UploadBaseService {
      * 获取文件全名
      */
     protected static String getFileKey(String prefix, String fileName) {
+        // 获取当前UTC时间并转换为东8区时间
+        ZonedDateTime zonedDateTime = ZonedDateTime.now(ZoneId.of("Asia/Shanghai"));
+        DateTimeFormatter yearMonthFormatter = DateTimeFormatter.ofPattern("yyyyMM");
+        DateTimeFormatter dayFormatter = DateTimeFormatter.ofPattern("dd");
+        DateTimeFormatter hourFormatter = DateTimeFormatter.ofPattern("HH");
+
         StringBuilder builder = new StringBuilder();
         if (!StringUtils.isEmpty(prefix)) {
             builder.append(prefix);
             builder.append(FileNameUtil.UNIX_SEPARATOR);
         }
-        builder.append("group0")
+        builder.append(zonedDateTime.format(yearMonthFormatter))
                 .append(FileNameUtil.UNIX_SEPARATOR)
-                .append(RandomUtil.randomStringUpper(2))
+                .append(zonedDateTime.format(dayFormatter))
                 .append(FileNameUtil.UNIX_SEPARATOR)
-                .append(RandomUtil.randomStringUpper(2))
-                .append(FileNameUtil.UNIX_SEPARATOR)
-                .append(RandomUtil.randomStringUpper(2))
+                .append(zonedDateTime.format(hourFormatter))
                 .append(FileNameUtil.UNIX_SEPARATOR);
-        return builder.toString() + fileName;
+        // 提取原文件后缀名
+        String fileExtension = FileNameUtil.extName(fileName);
+        String newFileName = getFileName();
+        if (!StringUtils.isEmpty(fileExtension)) {
+            newFileName = newFileName + "." + fileExtension;
+        }
+        return builder.toString() + newFileName;
     }
 
     /**
